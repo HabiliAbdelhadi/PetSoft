@@ -10,21 +10,24 @@ import {
 } from "./ui/dialog";
 import PetForm from "./petForm";
 import { useState } from "react";
+import { flushSync } from "react-dom";
 
 export default function PetButton({
   children,
   actionType,
   onClick,
+  disabled,
 }: {
   children?: React.ReactNode;
   actionType: "add" | "edit" | "checkout";
   onClick?: () => void;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
   if (actionType === "checkout")
     return (
-      <Button variant={"secondary"} onClick={onClick}>
+      <Button variant={"secondary"} onClick={onClick} disabled={disabled}>
         {children}
       </Button>
     );
@@ -48,7 +51,9 @@ export default function PetButton({
         <PetForm
           actionType={actionType}
           onFormSubmission={() => {
-            setOpen(false);
+            flushSync(() => {
+              setOpen(false);
+            });
           }}
         />
       </DialogContent>

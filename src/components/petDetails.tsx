@@ -34,7 +34,9 @@ function TopBar({ selectedPet }: { selectedPet: TPet }) {
         <PetButton actionType="edit">Edit</PetButton>
         <PetButton
           actionType="checkout"
-          onClick={() => handleCheckoutPet(selectedPet.id)}
+          onClick={async () => {
+            await handleCheckoutPet(selectedPet.id);
+          }}
         >
           Checkout
         </PetButton>

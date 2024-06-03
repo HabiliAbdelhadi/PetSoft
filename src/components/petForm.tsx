@@ -1,10 +1,9 @@
 "use client";
 import { usePetContext } from "@/lib/hooks";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { addPet } from "@/actions/actions";
+import { Button } from "./ui/button";
 
 export default function PetForm({
   actionType,
@@ -13,10 +12,28 @@ export default function PetForm({
   actionType: "add" | "edit";
   onFormSubmission: () => void;
 }) {
-  const { selectedPet } = usePetContext();
+  const { selectedPet, handleAddPet, handleEditPet } = usePetContext();
 
   return (
-    <form action={addPet}>
+    <form
+      action={async (formData) => {
+        onFormSubmission();
+        const petData = {
+          name: formData.get("name") as string,
+          ownerName: formData.get("ownerName") as string,
+          imageUrl:
+            (formData.get("imageUrl") as string) ||
+            "https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png",
+          age: Number(formData.get("age")),
+          notes: formData.get("notes") as string,
+        };
+
+        const error =
+          actionType === "add"
+            ? await handleAddPet(petData)
+            : await handleEditPet(petData, selectedPet!.id);
+      }}
+    >
       <div className="space-y-3 flex flex-col">
         <div className="space-y-1">
           <Label htmlFor="name">Name</Label>
