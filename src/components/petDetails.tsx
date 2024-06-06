@@ -1,8 +1,8 @@
 "use client";
 import { usePetContext } from "@/lib/hooks";
-import { TPet } from "@/lib/types";
 import Image from "next/image";
 import PetButton from "./petButton";
+import { Pet } from "@prisma/client";
 
 export default function PetDetails() {
   const { selectedPet } = usePetContext();
@@ -16,7 +16,7 @@ export default function PetDetails() {
   );
 }
 
-function TopBar({ selectedPet }: { selectedPet: TPet }) {
+function TopBar({ selectedPet }: { selectedPet: Pet }) {
   const { handleCheckoutPet } = usePetContext();
   return (
     <div className="flex items-center bg-white px-8 py-5 border-b border-light">
@@ -44,7 +44,7 @@ function TopBar({ selectedPet }: { selectedPet: TPet }) {
     </div>
   );
 }
-function OtherInfo({ selectedPet }: { selectedPet: TPet }) {
+function OtherInfo({ selectedPet }: { selectedPet: Pet }) {
   return (
     <div className="flex justify-around py-10 px-5 text-center">
       <div>
@@ -60,7 +60,7 @@ function OtherInfo({ selectedPet }: { selectedPet: TPet }) {
     </div>
   );
 }
-function Notes({ selectedPet }: { selectedPet: TPet }) {
+function Notes({ selectedPet }: { selectedPet: Pet }) {
   return (
     <section className="bg-white px-7 py-5 rounded-md mb-9 mx-8 flex-1 border border-light">
       {selectedPet?.notes}
